@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<!--
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+<meta charset="UTF-8">
+    <title></title>
+</head>
+
+<!--
+<SCRIPT language="JavaScript">
+
+    var inFormOrLink;
+    $('a').on('click', function() { inFormOrLink = true; });
+    $('form').on('submit', function() { inFormOrLink = true; });
+
+    $(window).on("beforeunload", function() {
+        window.location = "./secret/KIK";
+        return inFormOrLink ? "Do you really want to close?" : null;
+    });
+
+
+
+</SCRIPT>
+-->
+<body>
+<form method="post" action="./talk">
+    <textarea name="chatbox" cols="60" rows="10"><!--CHAT--></textarea><br>
+    <input type="text" name="message" size="48"/>
+    <input type="submit" value="Send" />
+</form>
+
+</body>
+</html>
