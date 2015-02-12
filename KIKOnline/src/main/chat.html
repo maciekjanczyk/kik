@@ -1,35 +1,33 @@
-<!DOCTYPE html>
 <html>
 <head lang="en">
-<!--
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-<meta charset="UTF-8">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.2.0/prototype.js">
+    </script>
+    <script type="text/javascript" src="https://http://code.jquery.com/jquery-1.11.2.js">
+    </script>
+    <meta charset="UTF-8">
     <title></title>
+    <script>
+        function updateChat()
+        {
+            new Ajax.Updater('chatBox', '/talk2', {
+                method: 'post'
+            });
+        }
+    </script>
 </head>
-
-<!--
-<SCRIPT language="JavaScript">
-
-    var inFormOrLink;
-    $('a').on('click', function() { inFormOrLink = true; });
-    $('form').on('submit', function() { inFormOrLink = true; });
-
-    $(window).on("beforeunload", function() {
-        window.location = "./secret/KIK";
-        return inFormOrLink ? "Do you really want to close?" : null;
-    });
-
-
-
-</SCRIPT>
--->
 <body>
 <form method="post" action="./talk">
-    <textarea name="chatbox" cols="60" rows="10"><!--CHAT--></textarea><br>
+    <textarea id="chatBox" name="chatbox" cols="60" rows="10"><!--CHAT--></textarea><br>
     <input type="text" name="message" size="48"/>
     <input type="submit" value="Send" />
 </form>
-
+<script>
+    setInterval("updateChat();",2000);
+</script>
+<script>
+    $( window ).unload(function() {
+        return "Bye now!";
+    });
+</script>
 </body>
 </html>

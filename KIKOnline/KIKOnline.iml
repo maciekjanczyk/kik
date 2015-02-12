@@ -58,7 +58,9 @@
     <orderEntry type="library" scope="TEST" name="Gradle: spring-test-4.0.7.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: fest-util-1.1.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: objenesis-1.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: javax.websocket-api-1.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: spring-boot-starter-websocket-1.1.8.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: spring-websocket-4.0.7.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: tomcat-embed-websocket-7.0.55" level="project" />
   </component>
 </module>
 

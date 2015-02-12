@@ -49,6 +49,15 @@ public class ApplicationController {
         return "ok.";
     }
 
+    @RequestMapping("/getActivePlayers")
+    public String getActivePlayers() {
+        String ret="";
+        for(Player p : players) {
+            ret+="<option>"+p.getNickname()+"</option>";
+        }
+        return ret;
+    }
+
     @RequestMapping("/tables")
     public String tablesPage(HttpServletRequest request) {
         Player player = new Player();
@@ -75,7 +84,7 @@ public class ApplicationController {
             ret += "<option>"+p.getNickname()+"</option>";
 
         ret += code[1];
-        return ret;
+        return titlePage(request);
     }
 
     @RequestMapping("/play")
@@ -97,17 +106,10 @@ public class ApplicationController {
                 break;
         }
         Table table = new Table(String.valueOf(id), p1, p2, response);
-        /*new Runnable() {
-
-            @Override
-            public void run() {
-                int a = 0;
-                while(true) a++;
-            }
-        }.run();*/
         tables.add(table);
 
         return new HtmlGrabber().toString("./src/main/chat.html");
+        //return "Ok.";
     }
 
     @RequestMapping("/talk")
@@ -128,16 +130,165 @@ public class ApplicationController {
                 break;
             }
 
-        String[] tab = new HtmlGrabber().toString("./src/main/chat.html").split("<!--CHAT-->");
+        String[] tab = new HtmlGrabber().toString("./src/main/canvas.html").split("<!--CHAT-->");
         String ret = tab[0];
         String komunikat = "["+player.getNickname()+"] ";
-        komunikat += request.getParameter("message")+"\n";
-        table.conv.add(komunikat);
+        String mess = request.getParameter("message");
+        if(mess != null) {
+            komunikat += mess+"\n";
+            table.conv.add(komunikat);
+        }
+
         for(String s : table.conv)
             ret += s;
         ret += tab[1];
 
         return ret;
+    }
+
+    @RequestMapping("/talk2")
+    public String talking2(HttpServletRequest request, HttpServletResponse response) {
+        String addr = request.getRemoteAddr();
+        Table table = null;
+        Player player = null;
+
+        for(Player p : players)
+            if(p.getAddress().equals(addr)) {
+                player = p;
+                break;
+            }
+
+        for(Table t : tables)
+            if(t.getPlayer1()==player||t.getPlayer2()==player) {
+                table = t;
+                break;
+            }
+
+        String ret="";
+
+        for(String s : table.conv)
+            ret += s;
+
+        return ret;
+    }
+
+    @RequestMapping("/play2")
+    public String playing2(HttpServletRequest request, HttpServletResponse response) {
+        String addr = request.getRemoteAddr();
+        Table table = null;
+        Player player = null;
+
+        for(Player p : players)
+            if(p.getAddress().equals(addr)) {
+                player = p;
+                break;
+            }
+
+        for(Table t : tables)
+            if(t.getPlayer1()==player||t.getPlayer2()==player) {
+                table = t;
+                break;
+            }
+
+        String ret;
+        String current_canvas = request.getParameter("mataDoGry");
+
+        if (current_canvas != null) {
+            table.setTurn(table.getSign(player),current_canvas);
+            ret = table.getCanvas();
+        } else {
+            ret = table.getCanvas();
+        }
+
+        return ret;
+    }
+
+    @RequestMapping("/psign")
+    public String getPlayerSign(HttpServletRequest request, HttpServletResponse response) {
+        String addr = request.getRemoteAddr();
+        Table table = null;
+        Player player = null;
+
+        for(Player p : players)
+            if(p.getAddress().equals(addr)) {
+                player = p;
+                break;
+            }
+
+        for(Table t : tables)
+            if(t.getPlayer1()==player||t.getPlayer2()==player) {
+                table = t;
+                break;
+            }
+
+        return table.getSign(player);
+    }
+
+    @RequestMapping("/isyourturn")
+    public String isYourTurn(HttpServletRequest request, HttpServletResponse response) {
+        String addr = request.getRemoteAddr();
+        Table table = null;
+        Player player = null;
+
+        for(Player p : players)
+            if(p.getAddress().equals(addr)) {
+                player = p;
+                break;
+            }
+
+        for(Table t : tables)
+            if(t.getPlayer1()==player||t.getPlayer2()==player) {
+                table = t;
+                break;
+            }
+
+        if (player.getNickname()==table.whosTurn().getNickname())
+            return "Yes.";
+        else
+            return "No.";
+    }
+
+    @RequestMapping("/getmynickname")
+    public String getMyNickname(HttpServletRequest request, HttpServletResponse response) {
+        String addr = request.getRemoteAddr();
+        Table table = null;
+        Player player = null;
+
+        for(Player p : players)
+            if(p.getAddress().equals(addr)) {
+                player = p;
+                break;
+            }
+
+        for(Table t : tables)
+            if(t.getPlayer1()==player||t.getPlayer2()==player) {
+                table = t;
+                break;
+            }
+
+        return player.getNickname();
+    }
+
+    @RequestMapping("/getgameresult")
+    public String getGameResult(HttpServletRequest request, HttpServletResponse response) {
+        String addr = request.getRemoteAddr();
+        Table table = null;
+        Player player = null;
+
+        for(Player p : players)
+            if(p.getAddress().equals(addr)) {
+                player = p;
+                break;
+            }
+
+        for(Table t : tables)
+            if(t.getPlayer1()==player||t.getPlayer2()==player) {
+                table = t;
+                break;
+            }
+
+        table.parseGameResult(player);
+        return table.getGameResult();
     }
 
     @RequestMapping("/logout")

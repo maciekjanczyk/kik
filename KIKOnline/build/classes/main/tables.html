@@ -1,32 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.2.0/prototype.js">
+    </script>
+    <script type="text/javascript" src="https://http://code.jquery.com/jquery-1.11.2.js">
+    </script>
     <meta charset="UTF-8">
     <title></title>
-    <script type="application/javascript">
-        $(this).closest("form").attr('target', target);
-        $("#butt").click(function(){
-            if ($("form[name='form']").valid()) {
-                var target = '_blank';
-                var form = $("form[name='form']");
-                window.open('', target, 'width=600,height=300');
-                form.attr('target', target);
-                return true;
-            }
+    <script>
+        function updateChat()
+        {
+            new Ajax.Updater('chatBox', '/talk2', {
+                method: 'post'
+            });
+        }
+    </script>
+    <script>
+
+        function popitup(url) {
+            var par = 'playerSelect='+$F('selected_player');
+            var updater = new Ajax.Updater('falseCont', '/play', {
+                method: 'post',
+                parameters: par
+            });
+            newwindow=window.open(url,'name','height=500,width=800');
+            if (window.focus) {newwindow.focus()}
             return false;
-        });
+        }
+
+        function updatePlayers()
+        {
+            new Ajax.Updater('selected_player', '/getActivePlayers', {
+                method: 'post',
+                parameters: ''
+            });
+        }
+
     </script>
 </head>
 <body>
-<form action="/play" method="post" name="form"> <!-- action = /play -->
-    <select name="playerSelect" size="20">
+
+    <select name="playerSelect" size="20" id="selected_player">
     ADD_PLAYERS
     </select>
     <br/>
-    <input type="submit" value="Invite" name="butt"/>
-</form>
+    <input type="button" value="Invite" name="butt" id="inviteButton" onclick="return popitup('/talk')"/>
+
 <form action="/logout" method="post">
     <input type="submit" value="Logout"/>
 </form>
+
+<div id="falseCont" style="display: none;"></div>
+
+<script>
+    setInterval("updatePlayers();",5000);
+</script>
+
 </body>
 </html>

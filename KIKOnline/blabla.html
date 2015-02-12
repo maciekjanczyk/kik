@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script type="text/javascript">
+    last='tekst1';
+    function f(x){
+        document.getElementById(last).className='h';
+        document.getElementById(x).className='';
+        last=x;
+    }
+</script>
+<style type="text/css">
+    .h {
+        display: none;
+    }
+</style>
+<div id="tekst1">tekst1</div>
+<div id="tekst2" class="h">tekst2</div>
+<div id="tekst3" class="h">tekst3</div>
+<a href="#" onclick="f('tekst1')">[1]</a>
+<a href="#" onclick="f('tekst2')">[2]</a>
+<a href="#" onclick="f('tekst3')">[3]</a>
+</body>
+</html>
