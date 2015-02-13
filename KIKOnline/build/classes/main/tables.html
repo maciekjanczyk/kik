@@ -8,6 +8,9 @@
     <meta charset="UTF-8">
     <title></title>
     <script>
+        var CHANGE_INVITE_STATE = false;
+        var GLOBALVAR = '';
+
         function updateChat()
         {
             new Ajax.Updater('chatBox', '/talk2', {
@@ -18,12 +21,20 @@
     <script>
 
         function popitup(url) {
+            CHANGE_INVITE_STATE = true;
             var par = 'playerSelect='+$F('selected_player');
             var updater = new Ajax.Updater('falseCont', '/play', {
                 method: 'post',
                 parameters: par
             });
-            newwindow=window.open(url,'name','height=500,width=800');
+            newwindow=window.open(url,'name','height=500,width=1000');
+            if (window.focus) {newwindow.focus()}
+            return false;
+        }
+
+        function popitup2(url) {
+
+            newwindow=window.open(url,'name','height=500,width=1000');
             if (window.focus) {newwindow.focus()}
             return false;
         }
@@ -36,9 +47,24 @@
             });
         }
 
+        function updateButton()
+        {
+            new Ajax.Updater('gameButton', '/getgamebutton', {
+                method: 'post'
+            });
+        }
+
+        function endGameRightNow() {
+            $('gameButton').innerHTML = $('gameButton').innerHTML + "<br/>Ending game...";
+            new Ajax.Updater('falseCont', '/endgame', {
+                method: 'get'
+            });
+        }
+
     </script>
 </head>
 <body>
+
 
     <select name="playerSelect" size="20" id="selected_player">
     ADD_PLAYERS
@@ -49,12 +75,22 @@
 <form action="/logout" method="post">
     <input type="submit" value="Logout"/>
 </form>
+<div id="gameButton"></div>
+
 
 <div id="falseCont" style="display: none;"></div>
 
 <script>
-    setInterval("updatePlayers();",5000);
+    updatePlayers();
+    updateButton();
 </script>
+<script>
+    setInterval("updatePlayers();",3000);
+</script>
+    <script>
+        setInterval("updateButton();",3000);
+    </script>
+
 
 </body>
 </html>

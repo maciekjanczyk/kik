@@ -78,6 +78,12 @@
     <script>
         function updateCanvases() {
             var newmat = $('parsed_mat').innerHTML;
+
+            if (newmat.length != 9) {
+                alert('Your opponent ended the game.');
+                window.close();
+            }
+
             for(var i=0;i<9;i++) {
                 TABLICA_RUCHOW[i]=newmat[i];
             }
@@ -184,6 +190,14 @@
             });
         }
     </script>
+    <script>
+        function endGameRightNow() {
+            new Ajax.Updater('parsed_mat', '/endgame', {
+                method: 'get'
+            });
+            window.close();
+        }
+    </script>
 </head>
 <body>
 
@@ -249,6 +263,8 @@
     <div id="parsed_mat" style="color: white;">---------</div>
     Game result:<br/>
     <div id="current_game_result" style="color: red"></div>
+    <br/>
+    <input type="button" value="End game" onclick="endGameRightNow();"/>
 </th>
 
 </tr></table>

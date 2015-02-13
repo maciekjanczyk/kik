@@ -5,8 +5,13 @@ public class Player {
     private boolean token = false;
     private String address = "";
     private boolean turn = false;
+    private Table currentTable;
 
     public boolean hasToken() { return token; }
+
+    public Table getCurrentTable() { return currentTable; }
+
+    public void setCurrentTable(Table table) { this.currentTable = table; }
 
     public void insertNickname(String nick) {
         nickname = nick;

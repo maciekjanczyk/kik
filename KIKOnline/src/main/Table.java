@@ -25,11 +25,15 @@ public class Table implements Runnable {
     public Table(String id, Player p1, Player p2, HttpServletResponse response) {
         this.p1 = p1;
         this.p2 = p2;
+        this.p1.getToken();
+        this.p2.getToken();
         this.id = id;
         this.lastResponse = response;
         this.turn = p1;
         conv.add("");
         convSize++;
+        p1.setCurrentTable(this);
+        p2.setCurrentTable(this);
     }
 
     public void setResponse(HttpServletResponse response) {
