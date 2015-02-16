@@ -1,9 +1,16 @@
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -521,6 +528,20 @@ public class ApplicationController {
                 "<br/>"+
                 "<input id=\"endRightNow\" type=\"button\" value=\"End game\"onclick=\"endGameRightNow();\""+isDisabled+"/>";
 
+    }
+
+    @RequestMapping(value="/scripts/{fname}", method = RequestMethod.GET)
+    public void fileDownload(@PathVariable("fname") String fname, HttpServletResponse response) {
+        try {
+            InputStream inputStream = new FileInputStream("./src/"+fname+".js");
+            IOUtils.copy(inputStream,response.getOutputStream());
+            response.flushBuffer();
+            //response.setContentType("text/javascript");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

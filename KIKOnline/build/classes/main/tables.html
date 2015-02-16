@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.2.0/prototype.js">
+    <script type="text/javascript" src="./scripts/prototype">
     </script>
-    <script type="text/javascript" src="https://http://code.jquery.com/jquery-1.11.2.js">
+    <script type="text/javascript" src="./srcipts/jquery-1.11.2">
     </script>
     <meta charset="UTF-8">
     <title></title>
@@ -61,6 +61,14 @@
             });
         }
 
+        function animation() {
+            if ($('gameButton').style.color == 'black') {
+                $('gameButton').style.color = 'red';
+            } else {
+                $('gameButton').style.color = 'black';
+            }
+        }
+
     </script>
 </head>
 <body>
@@ -75,7 +83,7 @@
 <form action="/logout" method="post">
     <input type="submit" value="Logout"/>
 </form>
-<div id="gameButton"></div>
+<div id="gameButton" style="color: black;"></div>
 
 
 <div id="falseCont" style="display: none;"></div>
@@ -90,7 +98,9 @@
     <script>
         setInterval("updateButton();",3000);
     </script>
-
+<script>
+    setInterval("animation();",1000);
+</script>
 
 </body>
 </html>
