@@ -1,0 +1,39 @@
+<html>
+<head lang="en">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.2.0/prototype.js">
+    </script>
+    <script type="text/javascript" src="https://http://code.jquery.com/jquery-1.11.2.js">
+    </script>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function updateChat()
+        {
+            new Ajax.Updater('chatBox', '/talk2', {
+                method: 'post'
+            });
+        }
+    </script>
+</head>
+<body>
+<form method="post" action="./talk">
+    <textarea id="chatBox" name="chatbox" cols="60" rows="10">
+        {% for m in messages %}
+            {{ m }}
+        {% else %}
+            &nbsp;
+        {% endfor %}
+    </textarea><br>
+    <input type="text" name="message" size="48"/>
+    <input type="submit" value="Send" />
+</form>
+<script>
+    setInterval("updateChat();",2000);
+</script>
+<script>
+    $( window ).unload(function() {
+        return "Bye now!";
+    });
+</script>
+</body>
+</html>

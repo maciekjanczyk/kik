@@ -27,6 +27,7 @@ dependencies {
     compile     group: 'org.springframework.boot',  name: 'spring-boot-starter-web'
     compile     group: 'org.springframework.boot',  name: 'spring-boot-starter-websocket'
     compile     group: 'org.springframework.boot',  name: 'spring-boot-starter-actuator'
+    compile     group: 'com.lyncode', name: 'jtwig-spring', version: '3.1.1'
     testCompile group: 'org.springframework.boot',  name: 'spring-boot-starter-test'
     testCompile group: 'org.easytesting', name: 'fest-assert', version: '1.4'
 }
